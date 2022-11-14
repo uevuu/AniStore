@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!-- Trigger the modal with a button -->
+    {% if is_auth %}
+        <div class="profile_page" style="display: grid; grid-template-columns: 1fr 5fr">
+            <div class="profile_section" style="margin-left: 10%; margin-right: 10%">
+                <h5>{{ first_name }} {{ last_name }}</h5>
+                <hr>
+                email: {{ email }}
+                <br>
+                orders count: 6
+                <br>
+                <a class="btn btn-light btn-profile" data-bs-toggle="modal" href="#exampleModalToggle3"
+                   role="button">Edit profile</a>
+                <br>
+                <a type="submit" class="btn btn-danger btn-profile" onclick="location.href = '{{ url_for("logout") }}'">
+                    Log Out
+                </a>
+                <br>
+                {% if is_admin %}
+                    <a class="btn btn-warning btn-profile" data-bs-toggle="modal" href="#ModalToggleAddProduct"
+                       role="button">Add product</a>
+                    <br>
+                    <a class="btn btn-warning btn-profile" data-bs-toggle="modal" href="#ModalToggleAddUniverse"
+                       role="button">Add universe</a>
+                {% endif %}
+
+            </div>
+            <div class="order_section" style="margin-right: 20%">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
+                            class="text-decoration-none"
+                            href="#">Manga Naruto 1</a> × 1
+                    </li>
+                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
+                            class="text-decoration-none"
+                            href="#">Naruto figure</a> × 1
+                    </li>
+                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
+                            class="text-decoration-none"
+                            href="#">Sasuke figure</a> × 1
+                    </li>
+                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
+                            class="text-decoration-none"
+                            href="#">Japan snack</a> × 1
+                    </li>
+                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
+                            class="text-decoration-none"
+                            href="#">3 frogs</a> × 1
+                    </li>
+                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
+                            class="text-decoration-none"
+                            href="#">Manga Bleach 4</a> × 2
+                    </li>
+                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
+                            class="text-decoration-none"
+                            href="#">Manga Tokyo ghoul
+                        1</a> ×
+                        1
+                    </li>
+                </ul>
+            </div>
+        </div>>
+    {% else %}
+        <div class="position-absolute top-50 start-50 translate-middle">
+
+            <h2 class="text-center">You are not logged in</h2>
+            <p class="text-center">To access the profile, you need to
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#exampleModalToggle" role="button">log
+                    in</a>
+                or
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#exampleModalToggle2"
+                   role="button">register</a>
+            </p>
+        </div>
+
+    {% endif %}
+    <!-- Modal -->
+
+    {% include 'inc/_modallog.html' %}
+    {% include 'inc/_modalreg.html' %}
+    {% include 'inc/_modaleditprofile.html' %}
+    {% include'inc/_modaladdproduct.html' %}
+    {% include'inc/_modaladduniverse.html' %}
+    <script src="../static/js/my_js.js"></script>
+{% endblock %}

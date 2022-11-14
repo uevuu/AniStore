@@ -1,0 +1,149 @@
+.main_name {
+    font-weight: 700;
+    font-size: 27px;
+}
+
+.second_name {
+    font-size: 12px;
+}
+
+.navbar-brand:hover {
+    color: gray;
+}
+
+.nav-link:hover {
+    font-weight: 700;
+}
+
+.btn-outline-success:hover {
+    color: mediumseagreen;
+    border-color: mediumseagreen;
+}
+
+.btn-outline-success:hover {
+    color: #f8f9fa;
+    background-color: mediumseagreen;
+    border-color: mediumseagreen;
+}
+
+.navbar-brand {
+    margin-left: 10%;
+}
+
+.left-nav {
+    align-items: center;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+}
+
+.form-control {
+    width: 400px;
+}
+
+.a-cart:hover {
+    color: #7CD35A;
+}
+
+.a-fav:hover {
+    color: #FF653C;
+}
+
+.a-profile:hover {
+    color: #7C92DC;
+}
+
+header {
+    margin-bottom: 100px;
+}
+
+.catalog-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    width: 55%;
+    margin: 0 auto;
+}
+
+
+.card-img-top {
+    max-height: 350px;
+    max-width: 250px;
+}
+
+.my-card-img {
+    height: 320px;
+    width: 270px;
+    margin: 3% auto;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cart, .btn-fav {
+    background-color: #f8f9fa;
+}
+
+.content-btn {
+    display: grid;
+}
+
+.btn-cart:hover {
+    background-color: #4ed48d;
+    color: white;
+}
+
+.btn-fav:hover {
+    background-color: #f55b6a;
+    color: white;
+}
+
+.card {
+    box-shadow: 0 10px 10px 0 rgb(98 62 99 / 5%);
+
+}
+
+.card:hover {
+    box-shadow: 0 10px 10px 0 rgb(98 62 99 / 30%);
+}
+
+.btn-profile {
+    width: 80%;
+    margin: 2% auto;
+}
+
+.product-content {
+    display: grid;
+    grid-template-columns: 4fr 5fr;
+    grid-gap: 10px;
+    width: 55%;
+    margin: 0 auto;
+}
+
+.product-img {
+    height: 370px;
+    width: 370px;
+    margin-right: 3%;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+.prod-img-top {
+    max-height: 370px;
+    max-width: 370px;
+}
+
+.product-description {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.product-info{
+    margin-top: 5%;
+}

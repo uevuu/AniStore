@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="catalog-content">
+        {% for product in products %}
+            <div class="card">
+                <div class="my-card-img">
+                    <img src="{{ product.img_url }}" class="card-img-top" alt="..."
+                         onclick="location.href = '{{ url_for("product_page", product_id = product.id) }}'">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+
+                </div>
+                <div class="card-body">
+                    <h6 class="card-text" style="margin-right:0">{{ product.cost }} ₽</h6>
+                    <hr>
+                    <div class="content-btn">
+                        <button type="button" class="btn btn-cart"><a>
+                            Add to cart
+                        </a></button>
+                        <button type="button" class="btn btn-fav">Add to wishlist</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

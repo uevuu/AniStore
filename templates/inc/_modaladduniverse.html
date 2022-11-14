@@ -1,0 +1,23 @@
+<div class="modal fade" id="ModalToggleAddUniverse" aria-hidden="true" aria-labelledby="ModalToggleAddUniverse"
+     tabindex="-1">
+    <form class="modal-dialog modal-dialog-centered needs-validation-log" method="post" novalidate>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="ModalToggleAddUniverse">Add universe</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="display: grid;justify-content: center">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="universe_name" placeholder="Universe name"
+                           name="universe_name" required>
+                    <label for="universe_name">Universe name</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" name="add_universe_form" onclick="checkValProfileEdit()">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

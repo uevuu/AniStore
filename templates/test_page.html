@@ -1,0 +1,201 @@
+{% include 'base.html' %}
+{% block body %}
+    <a class="text-decoration-none" data-bs-toggle="modal" href="#accountModal"
+               role="button">register</a>
+    <!-- Account Modal -->
+    <div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModal"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal" role="document">
+            <div class="modal-content">
+                <div class="modal-c-tabs">
+
+                    <ul class="nav nav-tabs md-tabs tabs-2 purple-gradient darken-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#registerPanel" role="tab"><i
+                                    class="fas fa-user-plus mr-1"></i>Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#loginPanel" role="tab"><i
+                                    class="fas fa-user mr-1"></i>Login</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in show active" id="registerPanel" role="tabpanel">
+                            <div class="modal-body mb-1">
+                                <form method="post" action="includes/registerForm.php" name="registerForm"
+                                      id="registerForm">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="md-form form-sm mb-5">
+                                                <i class="fas fa-user prefix"></i>
+                                                <input type="text" name="registerUsername" id="registerUsername"
+                                                       class="form-control form-control-sm validate" required/>
+                                                <label data-error="wrong" data-success="right" for="registerUsername">Username</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="md-form form-sm mb-5">
+                                                <i class="fas fa-envelope prefix"></i>
+                                                <input type="email" name="registerEmail" id="registerEmail"
+                                                       class="form-control form-control-sm validate" required/>
+                                                <label data-error="wrong" data-success="right" for="registerEmail">Email
+                                                    Address</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="md-form form-sm mb-5">
+                                                <i class="fas fa-lock prefix"></i>
+                                                <input type="password" name="registerPassword" id="registerPassword"
+                                                       class="form-control form-control-sm validate" required/>
+                                                <label data-error="wrong" data-success="right" for="registerPassword">Password</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="md-form form-sm mb-4">
+                                                <i class="fas fa-lock prefix"></i>
+                                                <input type="password" name="registerRetypePassword"
+                                                       id="registerRetypePassword" class="form-control form-control-sm"
+                                                       required/>
+                                                <label for="registerRetypePassword">Retype Password</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-center padding-bottom2">
+                                        <div class="col">
+                                            <button type="submit" class="btn purple-gradient btn-rounded btn-hover"
+                                                    onclick="validateRegisterForm()">Sign Up
+                                            </button>
+                                            <div class="registerStatus" id="registerStatus"></div>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer flex-center">
+                                        <div class="row text-center">
+                                            <div class="col">
+                                                <p class="pt-1">Already Have An Acount? &nbsp; <a data-toggle="tab"
+                                                                                                  href="#loginPanel"
+                                                                                                  role="tab">Log In</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" data-dismiss="modal"
+                                                        class="btn purple-gradient btn-rounded btn-hover3">Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="loginPanel" role="tabpanel">
+                            <div class="modal-body mb-1">
+                                <form method="post" actin="includes/loginForm.php" name="loginForm" id="loginForm">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="md-form form-sm mb-5">
+                                                <i class="fas fa-envelope prefix"></i>
+                                                <input type="email" name="loginEmail" id="loginEmail"
+                                                       class="form-control form-control-sm" required/>
+                                                <label for="loginEmail">Email Address</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="md-form form-sm mb-5">
+                                                <i class="fas fa-lock prefix"></i>
+                                                <input type="password" name="loginPassword" id="loginPassword"
+                                                       class="form-control form-control-sm" required/>
+                                                <label for="loginPassword">Password</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center padding-bottom2">
+                                        <div class="col">
+                                            <button type="submit" class="btn purple-gradient btn-rounded btn-hover"
+                                                    onclick="validateLoginForm()">Lon In
+                                            </button>
+                                            <div class="loginStatus" id="loginStatus"></div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer flex-center">
+                                        <div class="row text-center">
+                                            <div class="col">
+                                                <p class="pt-1"><a href="#">Forgot Password</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" data-dismiss="modal"
+                                                        class="btn purple-gradient btn-rounded btn-hover3">Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateRegisterForm() {
+            var registerFirstName = document.getElementById('registerFirstName').value;
+            if (registerFirstName == "") {
+                document.getElementById('registerStatus').innerHTML = "First Name cannot be empty";
+                return false;
+            }
+
+            var registerLastName = document.getElementById('registerLastName').value;
+            if (registerLastName == "") {
+                document.getElementById('registerStatus').innerHTML = "Last Name cannot be empty";
+                return false;
+            }
+
+            var registerEmail = document.getElementById('registerEmail').value;
+            if (registerEmail == "") {
+                document.getElementById('registerStatus').innerHTML = "Email Address cannot be empty";
+                return false;
+            }
+
+            var registerPassword = document.getElementById('registerPassword').value;
+            if (registerPassword == "") {
+                document.getElementById('registerStatus').innerHTML = "Password cannot be empty";
+                return false;
+            }
+
+            var registerSubmit = document.getElementById('registerSubmit');
+
+            var registerRetypePassword = document.getElementById('registerRetypePassword').value;
+            if (registerRetypePassword == "") {
+                document.getElementById('registerStatus').innerHTML = "Please retype password";
+                return false;
+            }
+
+            if (registerPassword == registerRetypePassword) {
+                document.getElementById('registerStatus').innerHTML = "Passwords Match";
+                return true;
+            } else {
+                document.getElementById('registerStatus').innerHTML = "Passwords do not match";
+                return false;
+            }
+
+            document.getElementById('registerStatus').innerHTML = "Sending...";
+            document.getElementById('registerForm').submit();
+        }
+    </script>
+{% endblock %}

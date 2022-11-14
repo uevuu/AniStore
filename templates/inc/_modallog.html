@@ -1,0 +1,29 @@
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <form class="modal-dialog modal-dialog-centered needs-validation-log" method="post" novalidate>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="exampleModalToggleLabel">LOG IN</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="display: grid;justify-content: center">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="emailLogInput" placeholder="name@example.com"
+                           name="email" required>
+                    <label for="emailLogInput">Email address</label>
+                    <div class="invalid-feedback">
+                        Correct format: name@example.com
+                    </div>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="passwordLogInput" placeholder="Password"
+                           name="password" required>
+                    <label for="passwordLogInput">Password</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" name="login_form" onclick="checkValLog()">Log In</button>
+            </div>
+        </div>
+    </form>
+</div>

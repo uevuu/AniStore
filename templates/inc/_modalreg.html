@@ -1,0 +1,46 @@
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+     tabindex="-1">
+    <form class="modal-dialog modal-dialog-centered needs-validation-reg" method="post" novalidate>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="exampleModalToggleLabel2">REGISTER</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="display: grid;justify-content: center">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="firstNameInput" placeholder="First name"
+                           name="first_name" required>
+                    <label for="firstNameInput">First name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="secondNameInput" placeholder="Last name"
+                           name="last_name" required>
+                    <label for="secondNameInput">Last name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="emailInput" placeholder="name@example.com"
+                           name="email"
+                           required>
+                    <label for="emailInput">Email address</label>
+                    <div class="invalid-feedback">
+                        Correct format: name@example.com
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="passwordInput" placeholder="Password"
+                           name="password" required>
+                    <label for="passwordInput">Create password</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="confirmPasswordInput"
+                           placeholder="Confirm password" required>
+                    <label for="confirmPasswordInput">Confirm password</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" name="register_form" onclick="checkValReg()">Create
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
