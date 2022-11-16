@@ -10,33 +10,35 @@
                         Categories
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"
-                               onclick="location.href = '{{ url_for("category_page", category_name = 'book') }}'">Books</a>
+                        <li>
+                            <a class="dropdown-item"
+                               href="{{ url_for("category_page", category_name = 'book') }}">Books</a>
                         </li>
-                        <li><a class="dropdown-item" href="#"
-                               onclick="location.href = '{{ url_for("category_page", category_name = 'figure') }}'">Figures</a>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for("category_page", category_name = 'figure') }}"
+                            >Figures</a>
                         </li>
-                        <li><a class="dropdown-item" href="#"
-                               onclick="location.href = '{{ url_for("category_page", category_name = 'cosplay') }}'">Cosplay</a>
+                        <li><a class="dropdown-item" href="{{ url_for("category_page", category_name = 'cosplay') }}"
+                        >Cosplay</a>
                         </li>
-                        <li><a class="dropdown-item" href="#"
-                               onclick="location.href = '{{ url_for("category_page", category_name = 'snack') }}'">Snacks</a>
+                        <li><a class="dropdown-item" href="{{ url_for("category_page", category_name = 'snack') }}"
+                        >Snacks</a>
                         </li>
-                        <li><a class="dropdown-item" href="#"
-                               onclick="location.href = '{{ url_for("category_page", category_name = 'other') }}'">Other</a>
+                        <li><a class="dropdown-item" href="{{ url_for("category_page", category_name = 'other') }}"
+                        >Other</a>
                         </li>
                     </ul>
                 </li>
                 <li>
                     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_by_name">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </li>
             </ul>
             <ul class="navbar-nav right-nav">
                 <li class="nav-item">
-                    <a class="nav-link a-fav" href="#">
+                    <a class="nav-link a-fav" href="{{ url_for('wishlist_page') }}">
                         <iconify-icon class="icon" icon="akar-icons:heart" width="24"></iconify-icon>
                         Wishlist
                     </a>

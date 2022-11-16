@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!-- Trigger the modal with a button -->
+    {% if is_auth %}
+        {% if products == [] %}
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <h2 class="text-center">Your wishlist is Empty </h2>
+                <p class="text-center">
+                    <a class="text-decoration-none" href="{{ url_for('main_page') }}">Check our
+                        products now</a>
+                </p>
+            </div>
+        {% else %}
+            <div class="order_section" style="margin-right: 20%; margin-left: 20%">
+                <ul class="list-group list-group-flush">
+                    {% for product in products %}
+                        <li class="list-group-item cart-product-content">
+                            <div class="cart-product-img">
+                                <img src="{{ product.img_url }}" class="cart-product-img-top" alt="...">
+                            </div>
+                            <div class="cart-product-info">
+                                <a class="text-decoration-none"
+                                   href="{{ url_for('product_page', product_id = product.product_id) }}">{{ product.title }}</a>
+                                <p class="cart-p">Price per one - {{ product.cost }} ₽ </p>
+                                <div class="btn-group content-wl-btn">
+                                    <button type="button" class="btn btn-cart" value="{{ product.product_id }}">
+                                        Add to cart
+                                    </button>
+                                    <button type="button" class="btn btn-fav"
+                                            onclick="location.href = '{{ url_for('remove_product_from_wl', product_id = product.product_id) }}'">
+                                        Remove from
+                                        wishlist
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <h2 class="text-center">You are not logged in</h2>
+            <p class="text-center">To access the profile, you need to
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#exampleModalToggle" role="button">log
+                    in</a>
+                or
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#exampleModalToggle2"
+                   role="button">register</a>
+            </p>
+        </div>
+    {% endif %}
+
+    {% include 'inc/_modallog.html' %}
+    {% include 'inc/_modalreg.html' %}
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btn-cart').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('add_to_cart') }}",
+                    data: {product_id: $(this).val()}
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

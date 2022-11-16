@@ -9,14 +9,37 @@
             <h5>Price: {{ product.cost }} ₽</h5>
             <p class="product-description">category: {{ product.category }}</p>
             <p class="product-description">universe: {{ product.universe_name }}</p>
-            <a class="btn btn-cart" role="button">Add to cart</a>
-            <a type="submit" class="btn btn-fav">Add to wishlist</a>
+            <button type="button" class="btn btn-cart" value="{{ product.id }}">
+                Add to cart
+            </button>
+            <button type="button" class="btn btn-fav" value="{{ product.id }}">Add to wishlist</button>
             {% if is_admin %}
                 <a class="btn btn-warning " role="button" data-bs-toggle="modal" href="#ModalToggleEditProduct">Edit</a>
-                <a class="btn btn-danger " role="button" data-bs-toggle="modal" href="#ModalToggleDeleteProduct">Delete</a>
+                <a class="btn btn-danger " role="button" data-bs-toggle="modal"
+                   href="#ModalToggleDeleteProduct">Delete</a>
             {% endif %}
         </div>
     </div>
     {% include 'inc/_modaleditproduct.html' %}
     {% include 'inc/_modaldeleteproduct.html' %}
+
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btn-cart').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('add_to_cart') }}",
+                    data: {product_id: $(this).val()}
+                });
+            });
+            $('.btn-fav').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('add_to_fav') }}",
+                    data: {product_id: $(this).val()}
+                });
+            });
+        });
+    </script>
 {% endblock %}

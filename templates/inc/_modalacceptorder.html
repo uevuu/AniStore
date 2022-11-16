@@ -1,0 +1,25 @@
+<div class="modal fade" id="ModalToggleAcceptOrder" aria-hidden="true" aria-labelledby="ModalToggleAcceptOrder"
+     tabindex="-1">
+    <form class="modal-dialog modal-dialog-centered needs-validation-log" method="post" novalidate>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="ModalToggleAcceptOrder">Successfully</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="display: grid;justify-content: center">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="address" placeholder="Enter the delivery address"
+                           name="address" required>
+                    <label for="address">Delivery address</label>
+                </div>
+                <input value="{{ total_price }}" name="total_price" type="hidden">
+            </div>
+            <p style="text-align: center">Pay for the order upon receipt!</p>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="submit" name="accept_order_form" onclick="checkValProfileEdit()">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

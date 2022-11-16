@@ -3,14 +3,23 @@
 {% block body %}
     <!-- Trigger the modal with a button -->
     {% if is_auth %}
-        <div class="profile_page" style="display: grid; grid-template-columns: 1fr 5fr">
+        <div class="profile_page" style="display: grid; grid-template-columns: 1fr 4fr 1fr">
             <div class="profile_section" style="margin-left: 10%; margin-right: 10%">
                 <h5>{{ first_name }} {{ last_name }}</h5>
                 <hr>
-                email: {{ email }}
-                <br>
-                orders count: 6
-                <br>
+                <p>email: {{ email }}</p>
+            </div>
+            <div class="order_section">
+                <h3 style="text-align: center">Your orders</h3>
+                <ul class="list-group list-group-flush">
+                    {% for order in orders %}
+                        <li class="list-group-item">Order №{{ order.id }} / Total price - {{ order.total_price }} ₽
+                            <br> Delivery address: {{ order.address }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="btn-section" style="margin-left: 10%">
                 <a class="btn btn-light btn-profile" data-bs-toggle="modal" href="#exampleModalToggle3"
                    role="button">Edit profile</a>
                 <br>
@@ -25,46 +34,10 @@
                     <a class="btn btn-warning btn-profile" data-bs-toggle="modal" href="#ModalToggleAddUniverse"
                        role="button">Add universe</a>
                 {% endif %}
-
             </div>
-            <div class="order_section" style="margin-right: 20%">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
-                            class="text-decoration-none"
-                            href="#">Manga Naruto 1</a> × 1
-                    </li>
-                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
-                            class="text-decoration-none"
-                            href="#">Naruto figure</a> × 1
-                    </li>
-                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
-                            class="text-decoration-none"
-                            href="#">Sasuke figure</a> × 1
-                    </li>
-                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
-                            class="text-decoration-none"
-                            href="#">Japan snack</a> × 1
-                    </li>
-                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
-                            class="text-decoration-none"
-                            href="#">3 frogs</a> × 1
-                    </li>
-                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
-                            class="text-decoration-none"
-                            href="#">Manga Bleach 4</a> × 2
-                    </li>
-                    <li class="list-group-item">Order №8712412 / Total price - 2 400 ₽<br><a
-                            class="text-decoration-none"
-                            href="#">Manga Tokyo ghoul
-                        1</a> ×
-                        1
-                    </li>
-                </ul>
-            </div>
-        </div>>
+        </div>
     {% else %}
         <div class="position-absolute top-50 start-50 translate-middle">
-
             <h2 class="text-center">You are not logged in</h2>
             <p class="text-center">To access the profile, you need to
                 <a class="text-decoration-none" data-bs-toggle="modal" href="#exampleModalToggle" role="button">log
@@ -83,5 +56,4 @@
     {% include 'inc/_modaleditprofile.html' %}
     {% include'inc/_modaladdproduct.html' %}
     {% include'inc/_modaladduniverse.html' %}
-    <script src="../static/js/my_js.js"></script>
 {% endblock %}

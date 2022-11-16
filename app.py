@@ -18,6 +18,16 @@ def load_user(user_id):
     return UserLogin().fromDB(user_id, db)
 
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html'), 500
+
+
 @app.route('/')
 def hello_world():
     return redirect(url_for('main_page'))
@@ -25,20 +35,36 @@ def hello_world():
 
 @app.route('/ani_store')
 def main_page():
-    products = db.get_all_products()
+    curr_request = request.args.to_dict(flat=False)
+    universe_filter = list(map(int, curr_request['universe'])) if 'universe' in curr_request else []
+    search_filter = request.args.get('search_by_name')
+    if search_filter is not None:
+        products = db.get_products_by_title(search_filter)
+    else:
+        products = db.get_all_products(universe_filter)
     context = {
         'title': 'Ani store',
-        'products': products
+        'products': products,
+        'universes': db.get_universes(),
+        'universe_filter': universe_filter
     }
     return render_template('main_page.html', **context)
 
 
 @app.route('/ani_store/<string:category_name>')
 def category_page(category_name):
-    products = db.get_all_products_by_category(category_name)
+    curr_request = request.args.to_dict(flat=False)
+    universe_filter = list(map(int, curr_request['universe'])) if 'universe' in curr_request else []
+    search_filter = request.args.get('search_by_name')
+    if search_filter is not None:
+        products = db.get_products_by_title_category(search_filter, category_name)
+    else:
+        products = db.get_all_products_by_category(category_name, universe_filter)
     context = {
         'title': category_name,
-        'products': products
+        'products': products,
+        'universes': db.get_universe_in_category(category_name),
+        'universe_filter': universe_filter
     }
     return render_template('main_page.html', **context)
 
@@ -63,36 +89,72 @@ def product_page(product_id):
         'title': product['title'],
         'product': product,
         'universes': universes,
-        'is_admin': current_user.is_authenticated
+        'is_admin': False
     }
+    if current_user.is_authenticated:
+        context['is_admin'] = db.get_user_by_id(current_user.get_id())[5]
 
     return render_template('product_page.html', **context)
+
+
+def reg_login_func():
+    curr_form = request.form
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    if 'register_form' in curr_form:
+        db.register_user(first_name, last_name, email, generate_password_hash(password))
+        user = db.get_user_by_email(email)
+        user_login = UserLogin().create(user)
+        login_user(user_login, remember=True)
+    else:
+        user = db.get_user_by_email(email)
+        if user is not None and check_password_hash(user[4], password):
+            user_login = UserLogin().create(user)
+            login_user(user_login, remember=True)
+        else:
+            print('nol have account or wrong password')
+
+
+@app.route('/ani_store/wishlist', methods=['GET', 'POST'])
+def wishlist_page():
+    if request.method == 'POST':
+        reg_login_func()
+    context = {
+        'title': "Wishlist",
+        'is_auth': current_user.is_authenticated,
+    }
+    if current_user.is_authenticated:
+        products = db.get_user_wl_products(current_user.get_id())
+        context['products'] = products
+
+    return render_template('wishlist_page.html', **context)
 
 
 @app.route('/ani_store/cart', methods=['GET', 'POST'])
 def cart_page():
     if request.method == 'POST':
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        if first_name is not None and last_name is not None:
-            db.registerUser(first_name, last_name, email, generate_password_hash(password))
-            user = db.get_user_by_email(email)
-            user_login = UserLogin().create(user)
-            login_user(user_login, remember=True)
-        else:
-            user = db.get_user_by_email(email)
-            if user is not None and check_password_hash(user[4], password):
-                user_login = UserLogin().create(user)
-                login_user(user_login, remember=True)
-            else:
-                print('nol have account or wrong password')
+        if current_user.is_authenticated:
+            if 'accept_order_form' in request.form:
+                address = request.form.get('address')
+                total_price = request.form.get('total_price')
+                user_id = current_user.get_id()
+                db.create_order(user_id, address, total_price)
+                db.clear_cart(user_id)
+                return redirect(url_for('cart_page'))
+        reg_login_func()
+
     context = {
         'title': "Cart",
         'is_auth': current_user.is_authenticated
     }
-    return render_template('user_not_auth.html', **context)
+    if current_user.is_authenticated:
+        products = db.get_user_products(current_user.get_id())
+        context['products'] = products
+        context['total_price'] = sum([product['count'] * product['cost'] for product in products])
+
+    return render_template('cart_page.html', **context)
 
 
 @app.route('/ani_store/profile', methods=['GET', 'POST'])
@@ -130,8 +192,11 @@ def profile_page():
             else:
                 print('nol have account or wrong password')
     if current_user.is_authenticated:
-        user = db.get_user_by_id(current_user.get_id())
+        user_id = current_user.get_id()
+        user = db.get_user_by_id(user_id)
         universes = db.get_universes()
+        orders = db.get_all_orders(user_id)
+        print(orders)
         context = {
             'title': "Profile",
             'is_auth': current_user.is_authenticated,
@@ -139,7 +204,8 @@ def profile_page():
             'last_name': user[2],
             'email': user[3],
             'is_admin': user[5],
-            'universes': universes
+            'universes': universes,
+            'orders': orders
         }
     else:
         context = {
@@ -160,6 +226,83 @@ def test_page():
 def logout():
     logout_user()
     return redirect(url_for('main_page'))
+
+
+@app.route('/add_to_cart/', methods=['GET', 'POST'])
+@login_required
+def add_to_cart():
+    if request.method == "POST":
+        product_id = request.form.get('product_id')
+        user_id = current_user.get_id()
+        if not db.user_have_product(user_id, product_id):
+            db.add_product_to_cart(user_id, product_id)
+    return render_template('main_page.html')
+
+
+@app.route('/add_to_fav/', methods=['GET', 'POST'])
+@login_required
+def add_to_fav():
+    if request.method == "POST":
+        product_id = request.form.get('product_id')
+        user_id = current_user.get_id()
+        if not db.user_have_product_in_fav(user_id, product_id):
+            db.add_product_to_fav(user_id, product_id)
+    return render_template('main_page.html')
+
+
+@app.route('/reduce_count/<int:product_id>')
+@login_required
+def reduce_count(product_id):
+    user_id = current_user.get_id()
+    if db.count_of_product_in_car(user_id, product_id) == 1:
+        db.delete_product_from_cart(user_id, product_id)
+    else:
+        db.reduce_count_of_product(user_id, product_id)
+    return redirect(url_for('cart_page'))
+
+
+@app.route('/increase_count/<int:product_id>')
+@login_required
+def increase_count(product_id):
+    user_id = current_user.get_id()
+    db.increase_count_of_product(user_id, product_id)
+    return redirect(url_for('cart_page'))
+
+
+@app.route('/remove_product_from_cart/<int:product_id>')
+@login_required
+def remove_product_from_cart(product_id):
+    user_id = current_user.get_id()
+    db.delete_product_from_cart(user_id, product_id)
+    return redirect(url_for('cart_page'))
+
+
+@app.route('/remove_product_from_wl/<int:product_id>')
+@login_required
+def remove_product_from_wl(product_id):
+    user_id = current_user.get_id()
+    db.remove_product_from_wl(user_id, product_id)
+    return redirect(url_for('wishlist_page'))
+
+
+# @app.route('/increase_count/', methods=['GET', 'POST'])
+# @login_required
+# def increase_count():
+#     if request.method == "POST":
+#         product_id = request.form.get('product_id')
+#         count = 10
+#         print('update_count')
+#         return {'product_id': product_id, 'count': count}
+#     print('not return')
+#     return render_template('cart_page.html')
+#
+#
+# @app.route('/reduce_count/', methods=['GET', 'POST'])
+# @login_required
+# def reduce_count():
+#     if request.method == "POST":
+#         product_id = request.form.get('product_id')
+#     return render_template('cart_page.html')
 
 
 if __name__ == '__main__':

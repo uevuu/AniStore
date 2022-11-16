@@ -2,6 +2,7 @@ function checkValReg() {
     let forms = document.querySelectorAll('.needs-validation-reg')
     let password = document.getElementById("passwordInput")
     let confirmPassword = document.getElementById("confirmPasswordInput")
+    let isGoodPassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
             form.addEventListener('submit', function (event) {
@@ -21,22 +22,7 @@ function checkValReg() {
                     event.preventDefault()
                     event.stopPropagation()
                 }
-                form.classList.add('was-validated')
-            }, false)
-        })
-}
-
-function checkValLog() {
-    let forms = document.querySelectorAll('.needs-validation-log')
-    let password = document.getElementById("passwordLogInput")
-    let isGoodPassword = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                } else if (!isGoodPassword.test(password.value)) {
+                if (!isGoodPassword.test(password.value)) {
                     swal({
                         title: "Password",
                         text: "contains at least one number" + "\r\n" +
@@ -56,7 +42,6 @@ function checkValLog() {
             }, false)
         })
 }
-
 
 function checkValProfileEdit() {
     let forms = document.querySelectorAll('.needs-validation-log')

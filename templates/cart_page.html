@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!-- Trigger the modal with a button -->
+    {% if is_auth %}
+        {% if products == [] %}
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <h2 class="text-center">Your shopping cart is empty </h2>
+                <p class="text-center">
+                    <a class="text-decoration-none" href="{{ url_for('main_page') }}">Buy
+                        products now</a>
+                </p>
+            </div>
+        {% else %}
+            <div class="order-section" style="margin-right: 20%; margin-left: 20%">
+                <ul class="list-group list-group-flush">
+                    {% for product in products %}
+                        <li class="list-group-item cart-product-content">
+                            <div class="cart-product-img">
+                                <img src="{{ product.img_url }}" class="cart-product-img-top" alt="...">
+                            </div>
+                            <div class="cart-product-info">
+                                <a class="text-decoration-none"
+                                   href="{{ url_for('product_page', product_id = product.product_id) }}">{{ product.title }}</a>
+                                × <a id="count_{{ product.id }}">{{ product.count }}</a>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-outline btn-product-cart btn-reduce"
+                                            onclick="location.href = '{{ url_for('reduce_count', product_id = product.product_id) }}'">
+                                        -
+                                    </button>
+                                    <button type="button" class="btn btn-outline btn-product-cart btn-increase"
+                                            onclick="location.href = '{{ url_for('increase_count', product_id = product.product_id) }}'">
+                                        +
+                                    </button>
+                                </div>
+                                <p class="cart-p">Price per one - {{ product.cost }} ₽</p>
+                                <button type="button" class="btn btn-cart btn-in-cart"
+                                        onclick="location.href = '{{ url_for('remove_product_from_cart', product_id = product.product_id) }}'">
+                                    Remove from cart
+                                </button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <a class="btn btn-success btn-lg" data-bs-toggle="modal" href="#ModalToggleAcceptOrder"
+                   role="button" style="width: 80%; margin-left: 10%; margin-bottom: 5%">MAKE AN ORDER
+                    FOR {{ total_price }} ₽</a>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <h2 class="text-center">You are not logged in</h2>
+            <p class="text-center">To access the profile, you need to
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#exampleModalToggle" role="button">log
+                    in</a>
+                or
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#exampleModalToggle2"
+                   role="button">register</a>
+            </p>
+        </div>
+    {% endif %}
+
+    {% include 'inc/_modallog.html' %}
+    {% include 'inc/_modalreg.html' %}
+    {% include'inc/_modalacceptorder.html' %}
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+
+{% endblock %}

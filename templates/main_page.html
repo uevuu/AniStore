@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 {% block body %}
+    <div class="accordion" id="accordionExample" style="width: 50%; margin-left: 25%; margin-bottom: 17px">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Filters
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                 data-bs-parent="#accordionExample">
+                <form method="get">
+                    <div class="filter-content">
+                        {% for universe in universes %}
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" value="{{ universe.id }}" name=universe
+                                        {% if universe.id in universe_filter %} checked {% endif %}>
+                                <label class="form-check-label" for="exampleCheck1">{{ universe.name }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="btn btn-outline-success btn-lg btn-filter" type="submit">filter</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="catalog-content">
         {% for product in products %}
             <div class="card">
@@ -15,13 +40,32 @@
                     <h6 class="card-text" style="margin-right:0">{{ product.cost }} ₽</h6>
                     <hr>
                     <div class="content-btn">
-                        <button type="button" class="btn btn-cart"><a>
+                        <button type="button" class="btn btn-cart" value="{{ product.id }}">
                             Add to cart
-                        </a></button>
-                        <button type="button" class="btn btn-fav">Add to wishlist</button>
+                        </button>
+                        <button type="button" class="btn btn-fav" value="{{ product.id }}">Add to wishlist</button>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btn-cart').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('add_to_cart') }}",
+                    data: {product_id: $(this).val()}
+                });
+            });
+            $('.btn-fav').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('add_to_fav') }}",
+                    data: {product_id: $(this).val()}
+                });
+            });
+        });
+    </script>
 {% endblock %}
